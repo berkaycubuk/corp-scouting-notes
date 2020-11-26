@@ -7,7 +7,17 @@ import {
   Button,
 } from "@material-ui/core";
 
+import { KeyboardDatePicker } from "@material-ui/pickers";
+
 export default function Home() {
+  const [selectedDate, setSelectedDate] = React.useState(
+    new Date("2014-08-18T21:11:54")
+  );
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
+
   return (
     <div>
       <h1>Home page</h1>
