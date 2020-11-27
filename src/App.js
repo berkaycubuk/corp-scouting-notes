@@ -1,8 +1,6 @@
 import React from "react";
 import Header from "./components/Header";
-
 import { BrowserRouter, Route } from "react-router-dom";
-
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import { Container } from "@material-ui/core";
