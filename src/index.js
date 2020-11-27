@@ -3,26 +3,32 @@ import ReactDOM from "react-dom";
 import "./index.css";
 
 import App from "./App";
-import firebase from "firebase/app";
-import "firebase/firestore";
-import "firebase/auth";
 
-import { useAuthState } from "react-firebase-hooks/auth";
-import { useCollectionData } from "react-firebase-hooks/firestore";
+import { createStore, applyMiddleware, compose } from "redux";
+import rootReducer from "./store/reducers/rootReducer";
+import { Provider } from "react-redux";
+import thunk from "redux-thunk";
+import { reduxFirestore, getFirestore } from "redux-firestore";
+import { reactReduxFirebase, getFirebase } from "react-redux-firebase";
+import firebaseConfig from "./config/firebaseConfig";
 
-firebase.initializeApp({
-  apiKey: "AIzaSyCDey05PfkWlPNZqC7XtHZ5rDl_qcLJRAo",
-  authDomain: "crop-scouting-notes-6118b.firebaseapp.com",
-  databaseURL: "https://crop-scouting-notes-6118b.firebaseio.com",
-  projectId: "crop-scouting-notes-6118b",
-  storageBucket: "crop-scouting-notes-6118b.appspot.com",
-  messagingSenderId: "40250463211",
-  appId: "1:40250463211:web:a587cb0ef2a1fd5ded7fae",
-});
+const store = createStore(
+  rootReducer,
+  compose(
+    applyMiddleware(
+      thunk.withExtraArgument({
+        getFirebase,
+        getFirestore,
+      })
+    ),
+    reduxFirestore(firebaseConfig),
+    reactReduxFirebase(firebaseConfig)
+  )
+);
 
 ReactDOM.render(
-  <React.StrictMode>
+  <Provider store={store}>
     <App />
-  </React.StrictMode>,
+  </Provider>,
   document.getElementById("root")
 );
