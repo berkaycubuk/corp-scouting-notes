@@ -34,6 +34,12 @@ class NoteForm extends Component {
     });
   };
 
+  handleDateChange = (date) => {
+    this.setState({
+      date,
+    });
+  };
+
   render() {
     return (
       <Card style={{ marginTop: "20px" }}>
@@ -59,9 +65,9 @@ class NoteForm extends Component {
                   margin="normal"
                   id="date"
                   label="Date picker dialog"
-                  format="MM/dd/yyyy"
+                  format="dd.MM.yyyy"
                   value={this.state.date}
-                  onChange={this.handleChange}
+                  onChange={this.handleDateChange}
                   KeyboardButtonProps={{
                     "aria-label": "change date",
                   }}

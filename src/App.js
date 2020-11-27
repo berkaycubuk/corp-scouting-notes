@@ -14,6 +14,16 @@ export default function App() {
       <Container>
         <Route exact path="/" component={Home} />
         <Route path="/login" component={Login} />
+        <p style={{ margin: "auto", padding: "10px", textAlign: "center" }}>
+          Created by{" "}
+          <a
+            style={{ color: "#3f51b5" }}
+            href="https://berkaycubuk.com"
+            target="_blank"
+          >
+            Berkay Çubuk
+          </a>
+        </p>
       </Container>
     </BrowserRouter>
   );

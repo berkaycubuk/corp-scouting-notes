@@ -6,8 +6,11 @@ import {
   TextField,
   Button,
 } from "@material-ui/core";
+import { connect } from "react-redux";
+import { signIn } from "../store/actions/authActions";
+import { Redirect } from "react-router-dom";
 
-export default class Login extends Component {
+class Login extends Component {
   state = {
     email: "",
     password: "",
@@ -22,10 +25,14 @@ export default class Login extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log(this.state);
+    this.props.signIn(this.state);
   };
 
   render() {
+    const { authError, auth } = this.props;
+
+    if (auth.uid) return <Redirect to="/" />;
+
     return (
       <div>
         <Card style={{ maxWidth: "600px", margin: "auto" }}>
@@ -63,6 +70,7 @@ export default class Login extends Component {
               >
                 Login
               </Button>
+              <p>{authError ? authError : null}</p>
             </form>
           </CardContent>
         </Card>
@@ -70,3 +78,18 @@ export default class Login extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    authError: state.auth.authError,
+    auth: state.firebase.auth,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    signIn: (credentials) => dispatch(signIn(credentials)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

@@ -1,12 +1,17 @@
 import React, { Component } from "react";
 import NoteForm from "../components/NoteForm";
 import NoteList from "../components/NoteList";
-
 import { connect } from "react-redux";
+import { firestoreConnect } from "react-redux-firebase";
+import { compose } from "redux";
+import { Redirect } from "react-router-dom";
 
 class Home extends Component {
   render() {
-    const { notes } = this.props;
+    const { notes, auth } = this.props;
+
+    if (!auth.uid) return <Redirect to="/login" />;
+
     return (
       <div>
         <NoteForm />
@@ -18,8 +23,12 @@ class Home extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    notes: state.note.notes,
+    notes: state.firestore.ordered.notes,
+    auth: state.firebase.auth,
   };
 };
 
-export default connect(mapStateToProps)(Home);
+export default compose(
+  connect(mapStateToProps),
+  firestoreConnect([{ collection: "notes", orderBy: ["date", "desc"] }])
+)(Home);

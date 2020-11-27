@@ -1,6 +1,6 @@
 export const createNote = (note) => {
-  return (dispatch, getState, { getFirebase, getFirestore }) => {
-    const firestore = getFirestore();
+  return (dispatch, getState, { getFirebase }) => {
+    const firestore = getFirebase().firestore();
     firestore
       .collection("notes")
       .add({

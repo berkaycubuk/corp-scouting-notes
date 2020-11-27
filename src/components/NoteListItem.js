@@ -1,20 +1,30 @@
 import React from "react";
-import { Card, CardContent, Typography, IconButton } from "@material-ui/core";
+import { Card, CardContent, Typography } from "@material-ui/core";
+import moment from "moment";
 
-export default function NoteListItem({ note }) {
+function NoteListItem({ note }) {
+  const [open, setOpen] = React.useState(false);
+
   return (
     <Card style={{ marginTop: "10px" }}>
-      <CardContent style={{ display: "flex", alignItems: "center" }}>
-        <div style={{ flexGrow: 1 }}>
-          <Typography style={{ color: "#666", marginBottom: "5px" }}>
-            26.11.2020
+      <CardContent>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            marginBottom: "5px",
+          }}
+        >
+          <Typography style={{ color: "#666" }}>{note.name}</Typography>
+          <span>&nbsp;-&nbsp;</span>
+          <Typography style={{ color: "#666", flexGrow: 1 }}>
+            {moment(note.date.toDate()).format("DD.MM.YYYY")}
           </Typography>
-          <Typography variant="h6">{note.description}</Typography>
         </div>
-        <IconButton color="secondary">
-          <span className="material-icons">delete</span>
-        </IconButton>
+        <Typography variant="h6">{note.description}</Typography>
       </CardContent>
     </Card>
   );
 }
+
+export default NoteListItem;
